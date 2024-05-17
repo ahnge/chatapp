@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
-import "./App.css";
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -33,21 +32,42 @@ function App() {
     }
   };
   return (
-    <div className="App">
-      <div className="chat-box">
+    <div className="h-screen bg-white px-3">
+      {/* title */}
+      <div className="w-full italic py-3 flex justify-center items-center h-fit fixed top-0 bg-white">
+        Quote Generator
+      </div>
+      {/* chat box */}
+      <div className="flex flex-col p-3 max-w-screen-md mx-auto pb-36 pt-16">
         {messages.map((msg, index) => (
-          <div key={index} className={`message ${msg.from}`}>
+          <div
+            key={index}
+            className={`mb-4 p-3 rounded-lg max-w-md ${
+              msg.from === "user"
+                ? "bg-blue-500 text-white self-end"
+                : "bg-gray-200 text-gray-900 self-start"
+            }`}
+          >
             {msg.text}
           </div>
         ))}
       </div>
-      <div className="input-box">
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type a message..."
-        />
-        <button onClick={sendMessage}>Send</button>
+      {/* Text input */}
+      <div className="fixed bottom-0 inset-x-0 px-3 border-t py-3 border-gray-300 bg-white">
+        <div className="flex max-w-3xl mx-auto">
+          <textarea
+            className="flex-1 p-2 border border-gray-300 rounded-lg resize-none"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type a message..."
+          />
+          <button
+            className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg"
+            onClick={sendMessage}
+          >
+            Send
+          </button>
+        </div>
       </div>
     </div>
   );
