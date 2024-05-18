@@ -10,7 +10,7 @@ app.use(cors());
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "http://localhost:5173"],
     methods: ["GET", "POST"],
   },
 });
@@ -33,6 +33,7 @@ io.on("connection", (socket) => {
         "Could not fetch a quote at this time. Please try again later."
       );
     }
+    // socket.emit("response", "You should test your code!");
   });
 
   socket.on("disconnect", () => {
