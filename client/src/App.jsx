@@ -99,7 +99,7 @@ function App() {
           />
           <button
             className="ml-2 px-4 py-2 bg-black text-white rounded-full absolute right-3 top-1/2 -translate-y-1/2 disabled:bg-black/30"
-            disabled={input.length === 0}
+            disabled={input.length === 0 || loading}
           >
             Send
           </button>

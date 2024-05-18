@@ -3,6 +3,7 @@ import http from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 import { pipeline } from "@xenova/transformers";
+import axios from "axios";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -26,14 +27,17 @@ io.on("connection", (socket) => {
         "text2text-generation",
         "Xenova/LaMini-Flan-T5-783M"
       );
-      const response = await generator(
-        `${userMessage}.And generate a random quote.`,
-        {
-          max_new_tokens: 100,
-        }
+      const response = await generator(userMessage, {
+        max_new_tokens: 100,
+      });
+      const quoteRes = await axios.get("https://api.api-ninjas.com/v1/quotes", {
+        headers: { "X-Api-Key": process.env.API_KEY },
+      });
+      const randomQuote = quoteRes.data[0].quote;
+      socket.emit(
+        "response",
+        `${response[0].generated_text}..Here is a random quote for you. \n${randomQuote}`
       );
-      console.log(response);
-      socket.emit("response", response[0].generated_text);
     } catch (error) {
       console.error("Error fetching quotes:", error);
       socket.emit(
