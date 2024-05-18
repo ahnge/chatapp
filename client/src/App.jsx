@@ -44,7 +44,7 @@ function App() {
         CatGPT
       </div>
       {/* chat box */}
-      <div className="flex flex-col p-3 max-w-screen-md mx-auto pb-36 pt-16">
+      <div className="flex flex-col pr-3 max-w-screen-md mx-auto pb-36 pt-16">
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -77,7 +77,7 @@ function App() {
           </div>
         ))}
         {loading && (
-          <div class="relative flex h-4 w-4">
+          <div class="relative flex h-4 w-4 ml-3">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-black opacity-75"></span>
             <span class="relative inline-flex rounded-full h-4 w-4 bg-black"></span>
           </div>

@@ -1,36 +1,44 @@
-const express = require("express");
-const http = require("http");
-const socketIo = require("socket.io");
-const cors = require("cors");
-const axios = require("axios");
-require("dotenv").config();
+import express from "express";
+import http from "http";
+import { Server } from "socket.io";
+import cors from "cors";
+import { pipeline } from "@xenova/transformers";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
 const server = http.createServer(app);
-const io = socketIo(server, {
+const io = new Server(server, {
   cors: {
     origin: ["http://localhost:3000", "http://localhost:5173"],
     methods: ["GET", "POST"],
   },
 });
 
-const api_url = "https://api.api-ninjas.com/v1/quotes";
 io.on("connection", (socket) => {
   console.log("a user connected");
 
-  socket.on("message", async () => {
+  socket.on("message", async (userMessage) => {
     try {
-      const response = await axios.get(api_url, {
-        headers: { "X-Api-Key": process.env.API_KEY },
-      });
-      const quote = response.data[0];
-      socket.emit("response", `${quote.quote} - ${quote.author}`);
+      const generator = await pipeline(
+        "text2text-generation",
+        "Xenova/LaMini-Flan-T5-783M"
+      );
+      const response = await generator(
+        `${userMessage}.And generate a random quote.`,
+        {
+          max_new_tokens: 100,
+        }
+      );
+      console.log(response);
+      socket.emit("response", response[0].generated_text);
     } catch (error) {
       console.error("Error fetching quotes:", error);
       socket.emit(
         "response",
-        "Could not fetch a quote at this time. Please try again later."
+        "Could not generate a quote at this time. Please try again later."
       );
     }
     // socket.emit("response", "You should test your code!");
