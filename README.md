@@ -16,7 +16,7 @@ This is a simple chat application built with a React frontend and an Express bac
     ```
 2.  **Build and run the container**:
     ```
-    docker-compose up --build
+    docker compose up --build
     ```
 3.  **Access the application**:
     Open your browser and navigate to `http://localhost:3000` to use the application.
