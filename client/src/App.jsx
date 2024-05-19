@@ -104,6 +104,9 @@ function App() {
             Send
           </button>
         </form>
+        <div className="mx-auto w-fit text-sm pt-3 text-gray-500">
+          CatGPT can make mistakes. Check important info.
+        </div>
       </div>
     </div>
   );
