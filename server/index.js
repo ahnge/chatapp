@@ -31,7 +31,7 @@ io.on("connection", (socket) => {
     {
       role: "system",
       content:
-        "You are a helpful assistant. And you always response with a random quote at the end.",
+        "You are a helpful assistant. And you always add a random quote at the end of your response.",
     },
   ];
 
@@ -52,7 +52,7 @@ io.on("connection", (socket) => {
       conversations[socket.id].push({ role: "assistant", content: response });
 
       // Emit the response back to the client
-      socket.emit("response", `${response} Meow.`);
+      socket.emit("response", `${response}. Meow meow meow.`);
     } catch (error) {
       console.error("Error fetching quotes:", error);
       socket.emit(

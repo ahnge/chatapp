@@ -48,9 +48,9 @@ function App() {
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`mb-4 p-3 rounded-lg max-w-md ${
+            className={`mb-4 p-3 rounded-lg  ${
               msg.from === "user"
-                ? "bg-[#F4F4F4] text-black self-end"
+                ? "bg-[#F4F4F4] text-black self-end max-w-md"
                 : "bg-transparent text-black self-start"
             }`}
           >
