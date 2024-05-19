@@ -60,7 +60,6 @@ io.on("connection", (socket) => {
         "Could not generate a quote at this time. Please try again later."
       );
     }
-    // socket.emit("response", "You should test your code!");
   });
 
   socket.on("disconnect", () => {
