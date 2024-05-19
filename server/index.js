@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import cors from "cors";
 import axios from "axios";
 import dotenv from "dotenv";
+import OpenAI from "openai";
 
 dotenv.config();
 
@@ -17,22 +18,46 @@ const io = new Server(server, {
   },
 });
 
-const api_url = "https://api.api-ninjas.com/v1/quotes";
+const openai = new OpenAI(process.env.OPENAI_API_KEY);
+
+// Store conversation history for each connected user
+const conversations = {};
+
 io.on("connection", (socket) => {
   console.log("a user connected");
 
-  socket.on("message", async () => {
+  // Initialize conversation history for this socket
+  conversations[socket.id] = [
+    {
+      role: "system",
+      content:
+        "You are a helpful assistant. And you always response with a random quote at the end saying 'Here is a quote for you. {quote} where {quote} is the random quote.",
+    },
+  ];
+
+  socket.on("message", async (userMessage) => {
     try {
-      const response = await axios.get(api_url, {
-        headers: { "X-Api-Key": process.env.API_KEY },
+      // Add the user's message to the conversation history
+      conversations[socket.id].push({ role: "user", content: userMessage });
+
+      const completion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: conversations[socket.id],
+        max_tokens: 150,
       });
-      const quote = response.data[0];
-      socket.emit("response", `${quote.quote} - ${quote.author}`);
+
+      const response = completion.choices[0].message.content;
+
+      // Add the assistant's response to the conversation history
+      conversations[socket.id].push({ role: "assistant", content: response });
+
+      // Emit the response back to the client
+      socket.emit("response", response);
     } catch (error) {
       console.error("Error fetching quotes:", error);
       socket.emit(
         "response",
-        "Could not fetch a quote at this time. Please try again later."
+        "Could not generate a quote at this time. Please try again later."
       );
     }
     // socket.emit("response", "You should test your code!");
