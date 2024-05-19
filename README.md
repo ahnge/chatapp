@@ -20,7 +20,7 @@ This is a simple chat application built with a React frontend and an Express bac
     ```
 3.  **Put your openai api key**:
 
-        Put your OPENAI_API_KEY in the .env file of the project root.
+        Create .env file in project root and put your OPENAI_API_KEY in it.
 
 4.  **Build and run the container**:
     ```
