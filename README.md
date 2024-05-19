@@ -6,6 +6,7 @@ This is a simple chat application built with a React frontend and an Express bac
 
 - Docker installed on your machine
 - Docker Compose installed on your machine
+- Openai api key with some credits
 
 ## Setup Instructions
 
@@ -14,11 +15,13 @@ This is a simple chat application built with a React frontend and an Express bac
     git clone https://github.com/ahnge/chatapp.git
     cd chatapp
     ```
-2.  **Build and run the container**:
+2.  **Put your openai api key**:
+    Put your OPENAI_API_KEY in the .env file of the project root.
+3.  **Build and run the container**:
     ```
     docker compose up --build
     ```
-3.  **Access the application**:
+4.  **Access the application**:
     Open your browser and navigate to `http://localhost:3000` to use the application.
 
 ## Notes

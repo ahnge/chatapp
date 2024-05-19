@@ -19,4 +19,5 @@ services:
     environment:
       - NODE_ENV=production
       - API_KEY=${API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
     command: npm start
