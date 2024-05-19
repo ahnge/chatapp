@@ -28,7 +28,7 @@ This is a simple chat application built with a React frontend and an Express bac
     ```
 5.  **Access the application**:
 
-        Open your browser and navigate to `http://localhost:3000` to use the application.
+        Open your browser and navigate to `http://localhost:3000` to start chatting with CatGPT.
 
 ## Notes
 
